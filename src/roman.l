@@ -24,6 +24,7 @@
 "I)"					{ return FIVE_HUNDRED;		}
 "·"						{ return '.';				}
 [IVXLCDM()|S\.-]		{ return yytext[0];			}
+.						{ return YYerror;			}
 
 %%
 

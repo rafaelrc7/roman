@@ -1,12 +1,13 @@
 %{
 	#include <stdio.h>
 
-	void yyerror(const char *err_msg);
+	void yyerror(double *result, const char *err_msg);
 	int yylex(void);
 
 	#define ONE_TWELFTH	(1.0/12.0)
 %}
 
+%parse-param {double *result}
 %define api.value.type {double}
 
 %token 'I' 'V' 'X' 'L' 'C' 'D' 'M' '(' ')' '|' 'S' '.' '-'
@@ -14,7 +15,7 @@
 %token NULLA SILIQUA SCRIPULUM DIMIDIA_SEXTULA SEXTULA SICILICUS BINAE_SEXTULAE SEMUNCIA SESCUNCIA
 %%
 
-roman			:	numeral							{ printf("%.3f\n", $1);	}
+roman			:	numeral							{ *result = $1;	}
 				;
 
 numeral			:	overVinculum boxVinculum group	{ $$ = $1 + $2 + $3;	}
@@ -112,7 +113,8 @@ group			:	apostrophus thousands halfApostrophus hundreds tens units fractions
 
 #include <stdio.h>
 
-void yyerror(const char *err_msg) {
+void yyerror(double *result, const char *err_msg) {
+	(void)(result); /* nop - supress unused parameter warning */
 	fprintf(stderr, "%s\n", err_msg);
 }
 
