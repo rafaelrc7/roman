@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -O2 -g
+CFLAGS = -O2 -g -Wall -Wextra
 
 roman: src/main.c lex.yy.c roman.tab.c roman.tab.h
 	$(CC) $(CFLAGS) -I. -o $@ lex.yy.c roman.tab.c src/main.c
